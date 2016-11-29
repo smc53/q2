@@ -1093,3 +1093,17 @@ struct edict_s
 	monsterinfo_t	monsterinfo;
 };
 
+
+//SHIFT EDITS
+
+typedef enum
+{
+	SHIFT_NORTH,
+	SHIFT_SOUTH,			
+	SHIFT_EAST,
+	SHIFT_WEST,
+	SHIFT_UP,
+	SHIFT_DOWN
+} shift_dir;
+
+shift_dir sh_dir;

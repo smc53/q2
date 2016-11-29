@@ -302,7 +302,34 @@ SV_AddGravity
 */
 void SV_AddGravity (edict_t *ent)
 {
-	ent->velocity[2] -= ent->gravity * sv_gravity->value * FRAMETIME;
+	//SHIFT EDITS
+	//ent->velocity[2] -= ent->gravity * sv_gravity->value * FRAMETIME;
+	//ent->velocity[0] += ent->gravity * sv_gravity->value * FRAMETIME ;
+
+	gi.dprintf("dir_add:%d\n", sh_dir);
+	switch(sh_dir) {
+	case SHIFT_UP:
+		ent->velocity[2] += ent->gravity * sv_gravity->value * FRAMETIME;
+		break;
+	case SHIFT_DOWN:
+		ent->velocity[2] -= ent->gravity * sv_gravity->value * FRAMETIME;
+		break;
+	case SHIFT_NORTH:
+		ent->velocity[0] -= ent->gravity * sv_gravity->value * FRAMETIME;
+		break;
+	case SHIFT_SOUTH:
+		ent->velocity[0] += ent->gravity * sv_gravity->value * FRAMETIME;
+		break;
+	case SHIFT_EAST:
+		ent->velocity[1] -= ent->gravity * sv_gravity->value * FRAMETIME;
+		break;
+	case SHIFT_WEST:
+		ent->velocity[1] += ent->gravity * sv_gravity->value * FRAMETIME;
+		break;
+	default:
+		ent->velocity[2] -= ent->gravity * sv_gravity->value * FRAMETIME;
+		break;
+	}
 }
 
 /*
@@ -898,6 +925,7 @@ void SV_Physics_Step (edict_t *ent)
 				if (hitsound)
 					gi.sound (ent, 0, gi.soundindex("world/land.wav"), 1, 1, 0);
 	}
+	SV_AddGravity(ent);
 
 // regular thinking
 	SV_RunThink (ent);
@@ -940,3 +968,24 @@ void G_RunEntity (edict_t *ent)
 		gi.error ("SV_Physics: bad movetype %i", (int)ent->movetype);			
 	}
 }
+
+
+//SHIFT EDITS
+void SH_randomDirection(){
+	
+	float r = random();
+	if( r > 0.9f ){
+		sh_dir = SHIFT_NORTH;
+	}else if( r > 0.65f ){
+		sh_dir = SHIFT_SOUTH;
+	}else if( r > 0.5f ){
+		sh_dir = SHIFT_EAST;
+	}else if( r > 0.35f ){
+		sh_dir = SHIFT_WEST;
+	}else if( r > 0.2f ){
+		sh_dir = SHIFT_UP;
+	}else{
+		sh_dir = SHIFT_DOWN;
+	}
+}
+

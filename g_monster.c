@@ -127,6 +127,7 @@ void M_CheckGround (edict_t *ent)
 	if (ent->flags & (FL_SWIM|FL_FLY))
 		return;
 
+	//SHIFT EDITS
 	if (ent->velocity[2] > 100)
 	{
 		ent->groundentity = NULL;

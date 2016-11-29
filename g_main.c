@@ -3,7 +3,7 @@
 
 game_locals_t	game;
 level_locals_t	level;
-game_import_t	gi;
+game_import_t	gi; //look at gi.DebugGraph();
 game_export_t	globals;
 spawn_temp_t	st;
 
@@ -92,6 +92,7 @@ and global variables
 game_export_t *GetGameAPI (game_import_t *import)
 {
 	gi = *import;
+
 
 	globals.apiversion = GAME_API_VERSION;
 	globals.Init = InitGame;
@@ -361,6 +362,9 @@ Advances the world by 0.1 seconds
 */
 void G_RunFrame (void)
 {
+	//IT EDITS
+	//gi.DebugGraph(0.5f, 0);
+
 	int		i;
 	edict_t	*ent;
 

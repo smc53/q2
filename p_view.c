@@ -481,6 +481,12 @@ P_FallingDamage
 */
 void P_FallingDamage (edict_t *ent)
 {
+
+	//SHFIT EDITS
+	//remove fall damage
+	return;
+
+	/*
 	float	delta;
 	int		damage;
 	vec3_t	dir;
@@ -548,6 +554,7 @@ void P_FallingDamage (edict_t *ent)
 		ent->s.event = EV_FALLSHORT;
 		return;
 	}
+	*/
 }
 
 

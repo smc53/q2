@@ -1287,6 +1287,25 @@ void ClientBegin (edict_t *ent)
 {
 	int		i;
 
+	//SHIFT EDITS
+	//float r = crandom();
+	float r = 0.7f;
+	gi.dprintf("Grav check %f\n", r);
+	if( r > 0.9f ){
+		sh_dir = SHIFT_NORTH;
+	}else if( r > 0.65f ){
+		sh_dir = SHIFT_SOUTH;
+	}else if( r > 0.5f ){
+		sh_dir = SHIFT_EAST;
+	}else if( r > 0.35f ){
+		sh_dir = SHIFT_WEST;
+	}else if( r > 0.2f ){
+		sh_dir = SHIFT_UP;
+	}else{
+		sh_dir = SHIFT_DOWN;
+	}
+	gi.dprintf("dir:%d\n", sh_dir);
+
 	ent->client = game.clients + (ent - g_edicts - 1);
 
 	if (deathmatch->value)
@@ -1420,7 +1439,9 @@ loadgames will.
 */
 qboolean ClientConnect (edict_t *ent, char *userinfo)
 {
+
 	char	*value;
+
 
 	// check to see if they are on the banned IP list
 	value = Info_ValueForKey (userinfo, "ip");
