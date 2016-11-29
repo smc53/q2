@@ -396,6 +396,12 @@ void SV_AddBlend (float r, float g, float b, float a, float *v_blend)
 SV_CalcBlend
 =============
 */
+float sh_red = 1.0;
+float sh_green = 0.5;
+float sh_blue = 0.5;
+float sh_alpha = 0.15;
+int sh_blending = 1;
+float sh_rate = 0.05;
 void SV_CalcBlend (edict_t *ent)
 {
 	int		contents;
@@ -413,12 +419,25 @@ void SV_CalcBlend (edict_t *ent)
 	else
 		ent->client->ps.rdflags &= ~RDF_UNDERWATER;
 
+
+	//shift edits
+	if( sh_blending ){
+		sh_red = sh_red - sh_rate < 0 ? 0 : sh_red - sh_rate;
+		if( sh_red <= 0 ) sh_blending = 0;
+	}else{
+		sh_red = sh_red + sh_rate >= 1.0 ? 1.0 : sh_red + sh_rate;
+		if( sh_red >= 1.0 ) sh_blending = 1;
+	}
+	SV_AddBlend(sh_red, sh_green, sh_blue, sh_alpha, ent->client->ps.blend);
+
+	/*
 	if (contents & (CONTENTS_SOLID|CONTENTS_LAVA))
 		SV_AddBlend (1.0, 0.3, 0.0, 0.6, ent->client->ps.blend);
 	else if (contents & CONTENTS_SLIME)
 		SV_AddBlend (0.0, 0.1, 0.05, 0.6, ent->client->ps.blend);
 	else if (contents & CONTENTS_WATER)
 		SV_AddBlend (0.5, 0.3, 0.2, 0.4, ent->client->ps.blend);
+*/
 
 	// add for powerups
 	if (ent->client->quad_framenum > level.framenum)
