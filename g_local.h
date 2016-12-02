@@ -50,6 +50,15 @@
 #define FL_POWER_ARMOR			0x00001000	// power armor (if any) is active
 #define FL_RESPAWN				0x80000000	// used for item respawning
 
+//GRAV EDITS
+#define FL_GRAV_UP				0x00010000
+#define FL_GRAV_DOWN			0x00020000
+#define FL_GRAV_NORTH			0x00040000
+#define FL_GRAV_SOUTH			0x00080000
+#define FL_GRAV_EAST			0x00100000
+#define FL_GRAV_WEST			0x00200000
+#define FL_GRAV_OFF				0x00400000
+#define FL_GRAV_ON				0x00800000
 
 #define	FRAMETIME		0.1
 

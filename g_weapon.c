@@ -127,6 +127,7 @@ static void fire_lead (edict_t *self, vec3_t start, vec3_t aimdir, int damage, i
 	tr = gi.trace (self->s.origin, NULL, NULL, start, self, MASK_SHOT);
 	if (!(tr.fraction < 1.0))
 	{
+
 		vectoangles (aimdir, dir);
 		AngleVectors (dir, forward, right, up);
 
@@ -144,6 +145,16 @@ static void fire_lead (edict_t *self, vec3_t start, vec3_t aimdir, int damage, i
 		}
 
 		tr = gi.trace (start, NULL, NULL, end, self, content_mask);
+
+
+		//grav edits
+		//do a trace for grav, plane.normal
+		if (tr.contents & MASK_SOLID){
+			gi.cprintf (self, PRINT_HIGH, "wall hit\n");
+			self->velocity[0] = tr.plane.normal[0];
+			self->velocity[1] = tr.plane.normal[1];
+			self->velocity[2] = tr.plane.normal[2];
+		}
 
 		// see if we hit water
 		if (tr.contents & MASK_WATER)

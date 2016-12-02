@@ -302,7 +302,27 @@ SV_AddGravity
 */
 void SV_AddGravity (edict_t *ent)
 {
-	ent->velocity[2] -= ent->gravity * sv_gravity->value * FRAMETIME;
+	if (ent->flags & FL_GRAV_UP){
+		ent->velocity[2] += ent->gravity * sv_gravity->value * FRAMETIME;
+	}
+	else if (ent->flags & FL_GRAV_DOWN){
+		ent->velocity[2] -= ent->gravity * sv_gravity->value * FRAMETIME;
+	}
+	else if (ent->flags & FL_GRAV_NORTH){
+		ent->velocity[1] -= ent->gravity * sv_gravity->value * FRAMETIME;
+	}
+	else if (ent->flags & FL_GRAV_SOUTH){
+		ent->velocity[1] += ent->gravity * sv_gravity->value * FRAMETIME;
+	}
+	else if (ent->flags & FL_GRAV_EAST){
+		ent->velocity[0] -= ent->gravity * sv_gravity->value * FRAMETIME;
+	}
+	else if (ent->flags & FL_GRAV_WEST){
+		ent->velocity[0] += ent->gravity * sv_gravity->value * FRAMETIME;
+	}
+	else{
+		ent->velocity[2] -= ent->gravity * sv_gravity->value * FRAMETIME;
+	}
 }
 
 /*

@@ -968,6 +968,27 @@ void ClientCommand (edict_t *ent)
 		Cmd_Wave_f (ent);
 	else if (Q_stricmp(cmd, "playerlist") == 0)
 		Cmd_PlayerList_f(ent);
+	else if(Q_stricmp(cmd, "grav_OFF") == 0){
+		if (ent->flags & FL_GRAV_OFF){
+			gi.cprintf (ent, PRINT_HIGH, "GRAVITY off\n");
+			ent->flags -= FL_GRAV_OFF;
+        }
+        else {
+			gi.cprintf (ent, PRINT_HIGH, "GRAVITY on\n");
+			ent->flags |= FL_GRAV_OFF;
+        }
+	}
+	else if(Q_stricmp(cmd, "grav_north") == 0){
+		if (ent->flags & FL_GRAV_NORTH){
+			gi.cprintf (ent, PRINT_HIGH, "GRAVITY north\n");
+			ent->flags -= FL_GRAV_NORTH;
+        }
+        else {
+			gi.cprintf (ent, PRINT_HIGH, "GRAVITY north off\n");
+			ent->flags |= FL_GRAV_NORTH;
+        }
+	}
+
 	else	// anything that doesn't match a command will be a chat
 		Cmd_Say_f (ent, false, true);
 }
