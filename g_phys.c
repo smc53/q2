@@ -302,6 +302,8 @@ SV_AddGravity
 */
 void SV_AddGravity (edict_t *ent)
 {
+
+	gi.cprintf(ent, PRINT_HIGH, "grav");
 	if (ent->flags & FL_GRAV_UP){
 		ent->velocity[2] += ent->gravity * sv_gravity->value * FRAMETIME;
 		gi.cprintf(ent, PRINT_HIGH, "grav up");

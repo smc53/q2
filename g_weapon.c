@@ -162,6 +162,7 @@ static void fire_lead (edict_t *self, vec3_t start, vec3_t aimdir, int damage, i
 			self->flags &= ~FL_GRAV_SOUTH;
 			self->flags &= ~FL_GRAV_EAST;
 			self->flags &= ~FL_GRAV_WEST;
+			self->air_finished = 0;
 
 			if(tr.plane.normal[0] == 0 && tr.plane.normal[1] == 1 && tr.plane.normal[2] == 0){
 				gi.cprintf(self, PRINT_MEDIUM, "y = 1");

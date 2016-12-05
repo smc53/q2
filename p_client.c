@@ -1607,7 +1607,31 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 		else if(ent->flags & FL_GRAV_OFF)
 			client->ps.pmove.gravity = sv_gravity->value;
 
-
+		//grav edits
+		if (ent->flags & FL_GRAV_UP){
+			ent->velocity[2] += ent->gravity * sv_gravity->value * FRAMETIME;
+			gi.cprintf(ent, PRINT_HIGH, "grav up");
+		}
+		else if (ent->flags & FL_GRAV_DOWN){
+			ent->velocity[2] -= ent->gravity * sv_gravity->value ;
+			gi.cprintf(ent, PRINT_HIGH, "grav down");
+		}
+		else if (ent->flags & FL_GRAV_WEST){
+			ent->velocity[1] -= ent->gravity * sv_gravity->value ;
+			gi.cprintf(ent, PRINT_HIGH, "grav west");
+		}
+		else if (ent->flags & FL_GRAV_EAST){
+			ent->velocity[1] += ent->gravity * sv_gravity->value ;
+			gi.cprintf(ent, PRINT_HIGH, "grav east");
+		}
+		else if (ent->flags & FL_GRAV_SOUTH){
+			ent->velocity[0] -= ent->gravity * sv_gravity->value ;
+			gi.cprintf(ent, PRINT_HIGH, "grav south");
+		}
+		else if (ent->flags & FL_GRAV_NORTH){
+			ent->velocity[0] += ent->gravity * sv_gravity->value ;
+			gi.cprintf(ent, PRINT_HIGH, "grav nortt");
+		}
 
 		pm.s = client->ps.pmove;
 
