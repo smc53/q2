@@ -149,11 +149,33 @@ static void fire_lead (edict_t *self, vec3_t start, vec3_t aimdir, int damage, i
 
 		//grav edits
 		//do a trace for grav, plane.normal
+		//calculate direction
 		if (tr.contents & MASK_SOLID){
 			gi.cprintf (self, PRINT_HIGH, "wall hit\n");
-			self->velocity[0] = tr.plane.normal[0];
-			self->velocity[1] = tr.plane.normal[1];
-			self->velocity[2] = tr.plane.normal[2];
+			gi.cprintf(self, PRINT_HIGH, "%f %f %f \n",tr.plane.normal[0], tr.plane.normal[1], tr.plane.normal[2]);
+			
+			//clear grav flags
+			self->groundentity = NULL;
+			self->flags &= ~FL_GRAV_UP;
+			self->flags &= ~FL_GRAV_DOWN;
+			self->flags &= ~FL_GRAV_NORTH;
+			self->flags &= ~FL_GRAV_SOUTH;
+			self->flags &= ~FL_GRAV_EAST;
+			self->flags &= ~FL_GRAV_WEST;
+
+			if(tr.plane.normal[0] == 0 && tr.plane.normal[1] == 1 && tr.plane.normal[2] == 0){
+				gi.cprintf(self, PRINT_MEDIUM, "y = 1");
+				self->flags |= FL_GRAV_WEST;
+			}else if(tr.plane.normal[0] == 0 && tr.plane.normal[1] == -1 && tr.plane.normal[2] == 0){
+				self->flags |= FL_GRAV_EAST;
+				gi.cprintf(self, PRINT_MEDIUM, "y = -1");
+			}else if(tr.plane.normal[0] == 0 && tr.plane.normal[1] == 0 && tr.plane.normal[2] == -1){
+				gi.cprintf(self, PRINT_MEDIUM, "z = -1");
+				self->flags |= FL_GRAV_UP;
+			}else if(tr.plane.normal[0] == 0 && tr.plane.normal[1] == 0 && tr.plane.normal[2] == 1){
+				gi.cprintf(self, PRINT_MEDIUM, "z = 1");
+				self->flags |= FL_GRAV_DOWN;
+			}
 		}
 
 		// see if we hit water

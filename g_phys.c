@@ -304,24 +304,31 @@ void SV_AddGravity (edict_t *ent)
 {
 	if (ent->flags & FL_GRAV_UP){
 		ent->velocity[2] += ent->gravity * sv_gravity->value * FRAMETIME;
+		gi.cprintf(ent, PRINT_HIGH, "grav up");
 	}
 	else if (ent->flags & FL_GRAV_DOWN){
 		ent->velocity[2] -= ent->gravity * sv_gravity->value * FRAMETIME;
+		gi.cprintf(ent, PRINT_HIGH, "grav down");
 	}
 	else if (ent->flags & FL_GRAV_NORTH){
 		ent->velocity[1] -= ent->gravity * sv_gravity->value * FRAMETIME;
+		gi.cprintf(ent, PRINT_HIGH, "grav north");
 	}
 	else if (ent->flags & FL_GRAV_SOUTH){
 		ent->velocity[1] += ent->gravity * sv_gravity->value * FRAMETIME;
+		gi.cprintf(ent, PRINT_HIGH, "grav south");
 	}
 	else if (ent->flags & FL_GRAV_EAST){
 		ent->velocity[0] -= ent->gravity * sv_gravity->value * FRAMETIME;
+		gi.cprintf(ent, PRINT_HIGH, "grav east");
 	}
 	else if (ent->flags & FL_GRAV_WEST){
 		ent->velocity[0] += ent->gravity * sv_gravity->value * FRAMETIME;
+		gi.cprintf(ent, PRINT_HIGH, "grav west");
 	}
 	else{
 		ent->velocity[2] -= ent->gravity * sv_gravity->value * FRAMETIME;
+		gi.cprintf(ent, PRINT_HIGH, "grav normal");
 	}
 }
 
@@ -835,7 +842,8 @@ void SV_Physics_Step (edict_t *ent)
 		wasonground = true;
 	else
 		wasonground = false;
-		
+	
+
 	if (ent->avelocity[0] || ent->avelocity[1] || ent->avelocity[2])
 		SV_AddRotationalFriction (ent);
 
@@ -846,8 +854,10 @@ void SV_Physics_Step (edict_t *ent)
 		if (!(ent->flags & FL_FLY))
 			if (!((ent->flags & FL_SWIM) && (ent->waterlevel > 2)))
 			{
-				if (ent->velocity[2] < sv_gravity->value*-0.1)
-					hitsound = true;
+				
+				//GRAV EDITS
+				//if (ent->velocity[2] < sv_gravity->value*-0.1)
+					//hitsound = true;
 				if (ent->waterlevel == 0)
 					SV_AddGravity (ent);
 			}

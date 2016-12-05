@@ -1657,9 +1657,11 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 		ent->viewheight = pm.viewheight;
 		ent->waterlevel = pm.waterlevel;
 		ent->watertype = pm.watertype;
+
 		ent->groundentity = pm.groundentity;
 		if (pm.groundentity)
 			ent->groundentity_linkcount = pm.groundentity->linkcount;
+			
 
 		if (ent->deadflag)
 		{
