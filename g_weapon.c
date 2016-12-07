@@ -168,9 +168,12 @@ static void fire_lead (edict_t *self, vec3_t start, vec3_t aimdir, int damage, i
 			self->velocity[2] = 0;
 
 			if(tr.plane.normal[0] == 0 && tr.plane.normal[1] == 1 && tr.plane.normal[2] == 0){
-				gi.cprintf(self, PRINT_MEDIUM, "y = 1");
 				self->flags |= FL_GRAV_WEST;
 				self->velocity[0] += self->gravity;
+				//self->client->ps.viewangles[ROLL] = 90;
+				//self->client->ps.viewangles[PITCH] = -15;
+				//self->client->ps.viewangles[YAW] = ent->client->killer_yaw;
+
 			}else if(tr.plane.normal[0] == 0 && tr.plane.normal[1] == -1 && tr.plane.normal[2] == 0){
 				self->flags |= FL_GRAV_EAST;
 				gi.cprintf(self, PRINT_MEDIUM, "y = -1");

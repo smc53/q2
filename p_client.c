@@ -1701,8 +1701,15 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 		}
 		else
 		{
-			VectorCopy (pm.viewangles, client->v_angle);
-			VectorCopy (pm.viewangles, client->ps.viewangles);
+			if(ent->flags & FL_GRAV_DOWN){
+				client->ps.viewangles[ROLL] = 180;
+				VectorCopy(pm.viewangles, client->v_angle);
+				VectorCopy(pm.viewangles, client->ps.viewangles);
+				
+			}else {
+				VectorCopy (pm.viewangles, client->v_angle);
+				VectorCopy (pm.viewangles, client->ps.viewangles);
+			}
 		}
 
 		gi.linkentity (ent);

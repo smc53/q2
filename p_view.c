@@ -413,12 +413,30 @@ void SV_CalcBlend (edict_t *ent)
 	else
 		ent->client->ps.rdflags &= ~RDF_UNDERWATER;
 
+	//grav edits
+	//remove old blends
+	/*
 	if (contents & (CONTENTS_SOLID|CONTENTS_LAVA))
 		SV_AddBlend (1.0, 0.3, 0.0, 0.6, ent->client->ps.blend);
 	else if (contents & CONTENTS_SLIME)
 		SV_AddBlend (0.0, 0.1, 0.05, 0.6, ent->client->ps.blend);
 	else if (contents & CONTENTS_WATER)
 		SV_AddBlend (0.5, 0.3, 0.2, 0.4, ent->client->ps.blend);
+	*/
+
+	if(ent->flags & FL_GRAV_UP){
+		SV_AddBlend(1.0, 1.0, 1.0, 0.08, ent->client->ps.blend);
+	}else if(ent->flags & FL_GRAV_DOWN){
+		SV_AddBlend(0.2, 0.2, 0.2, 0.08, ent->client->ps.blend);
+	}else if(ent->flags & FL_GRAV_NORTH){
+		SV_AddBlend(0.2, 0.2, 1.0, 0.08, ent->client->ps.blend);
+	}else if(ent->flags & FL_GRAV_SOUTH){
+		SV_AddBlend(0.2, 1.0, 0.2, 0.08, ent->client->ps.blend);
+	}else if(ent->flags & FL_GRAV_EAST){
+		SV_AddBlend(1.0, 0.2, 0.2, 0.08, ent->client->ps.blend);
+	}else if(ent->flags & FL_GRAV_WEST){
+		SV_AddBlend(1.0, 1.0, 0.2, 0.08, ent->client->ps.blend);
+	}
 
 	// add for powerups
 	if (ent->client->quad_framenum > level.framenum)
@@ -540,8 +558,11 @@ void P_FallingDamage (edict_t *ent)
 			damage = 1;
 		VectorSet (dir, 0, 0, 1);
 
-		if (!deathmatch->value || !((int)dmflags->value & DF_NO_FALLING) )
-			T_Damage (ent, world, world, dir, ent->s.origin, vec3_origin, damage, 0, 0, MOD_FALLING);
+
+		//grav edits
+		//remove fall daamge
+		//if (!deathmatch->value || !((int)dmflags->value & DF_NO_FALLING) )
+			//T_Damage (ent, world, world, dir, ent->s.origin, vec3_origin, damage, 0, 0, MOD_FALLING);
 	}
 	else
 	{
