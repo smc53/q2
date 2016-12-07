@@ -1609,28 +1609,34 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 
 		//grav edits
 		if (ent->flags & FL_GRAV_UP){
-			ent->velocity[2] += ent->gravity * sv_gravity->value * FRAMETIME;
-			gi.cprintf(ent, PRINT_HIGH, "grav up");
+			ent->velocity[2] += sv_gravity->value;
+			//ent->movetype = MOVETYPE_FLYMISSILE;
+			//ent->groundentity = NULL;
 		}
 		else if (ent->flags & FL_GRAV_DOWN){
-			ent->velocity[2] -= ent->gravity * sv_gravity->value ;
-			gi.cprintf(ent, PRINT_HIGH, "grav down");
+			//ent->groundentity = NULL;
+			//ent->movetype = MOVETYPE_FLYMISSILE;
+			ent->velocity[2] -= sv_gravity->value;
 		}
 		else if (ent->flags & FL_GRAV_WEST){
-			ent->velocity[1] -= ent->gravity * sv_gravity->value ;
-			gi.cprintf(ent, PRINT_HIGH, "grav west");
+			//ent->groundentity = NULL;
+			//ent->movetype = MOVETYPE_FLYMISSILE;
+			ent->velocity[1] -= sv_gravity->value;
 		}
 		else if (ent->flags & FL_GRAV_EAST){
-			ent->velocity[1] += ent->gravity * sv_gravity->value ;
-			gi.cprintf(ent, PRINT_HIGH, "grav east");
+			//ent->groundentity = NULL;
+			//ent->movetype = MOVETYPE_FLYMISSILE;
+			ent->velocity[1] += sv_gravity->value;
 		}
 		else if (ent->flags & FL_GRAV_SOUTH){
-			ent->velocity[0] -= ent->gravity * sv_gravity->value ;
-			gi.cprintf(ent, PRINT_HIGH, "grav south");
+			//ent->groundentity = NULL;
+			//ent->movetype = MOVETYPE_FLYMISSILE;
+			ent->velocity[0] += sv_gravity->value;
 		}
 		else if (ent->flags & FL_GRAV_NORTH){
-			ent->velocity[0] += ent->gravity * sv_gravity->value ;
-			gi.cprintf(ent, PRINT_HIGH, "grav nortt");
+			//ent->groundentity = NULL;
+			//ent->movetype = MOVETYPE_FLYMISSILE;
+			ent->velocity[0] -= sv_gravity->value;
 		}
 
 		pm.s = client->ps.pmove;

@@ -302,7 +302,7 @@ SV_AddGravity
 */
 void SV_AddGravity (edict_t *ent)
 {
-
+	/*
 	gi.cprintf(ent, PRINT_HIGH, "grav");
 	if (ent->flags & FL_GRAV_UP){
 		ent->velocity[2] += ent->gravity * sv_gravity->value * FRAMETIME;
@@ -328,10 +328,11 @@ void SV_AddGravity (edict_t *ent)
 		ent->velocity[0] += ent->gravity * sv_gravity->value * FRAMETIME;
 		gi.cprintf(ent, PRINT_HIGH, "grav west");
 	}
-	else{
-		ent->velocity[2] -= ent->gravity * sv_gravity->value * FRAMETIME;
-		gi.cprintf(ent, PRINT_HIGH, "grav normal");
-	}
+	else{*/
+
+
+		//ent->velocity[2] -= ent->gravity * sv_gravity->value * FRAMETIME;
+	//}
 }
 
 /*
@@ -687,6 +688,8 @@ void SV_Physics_Toss (edict_t *ent)
 	qboolean	isinwater;
 	vec3_t		old_origin;
 
+	gi.cprintf(ent, PRINT_HIGH, "sv phys call");
+
 // regular thinking
 	SV_RunThink (ent);
 
@@ -711,6 +714,7 @@ void SV_Physics_Toss (edict_t *ent)
 	SV_CheckVelocity (ent);
 
 // add gravity
+	gi.cprintf(ent, PRINT_HIGH, "sv grav check");
 	if (ent->movetype != MOVETYPE_FLY
 	&& ent->movetype != MOVETYPE_FLYMISSILE)
 		SV_AddGravity (ent);
@@ -736,7 +740,7 @@ void SV_Physics_Toss (edict_t *ent)
 	// stop if on ground
 		if (trace.plane.normal[2] > 0.7)
 		{		
-			if (ent->velocity[2] < 60 || ent->movetype != MOVETYPE_BOUNCE )
+			if (ent->flags & FL_GRAV_UP && (ent->velocity[2] < 60 || ent->movetype != MOVETYPE_BOUNCE ))
 			{
 				ent->groundentity = trace.ent;
 				ent->groundentity_linkcount = trace.ent->linkcount;

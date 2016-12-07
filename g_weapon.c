@@ -163,19 +163,26 @@ static void fire_lead (edict_t *self, vec3_t start, vec3_t aimdir, int damage, i
 			self->flags &= ~FL_GRAV_EAST;
 			self->flags &= ~FL_GRAV_WEST;
 			self->air_finished = 0;
+			self->velocity[0] = 0;
+			self->velocity[1] = 0;
+			self->velocity[2] = 0;
 
 			if(tr.plane.normal[0] == 0 && tr.plane.normal[1] == 1 && tr.plane.normal[2] == 0){
 				gi.cprintf(self, PRINT_MEDIUM, "y = 1");
 				self->flags |= FL_GRAV_WEST;
+				self->velocity[0] += self->gravity;
 			}else if(tr.plane.normal[0] == 0 && tr.plane.normal[1] == -1 && tr.plane.normal[2] == 0){
 				self->flags |= FL_GRAV_EAST;
 				gi.cprintf(self, PRINT_MEDIUM, "y = -1");
+				self->velocity[0] -= self->gravity ;
 			}else if(tr.plane.normal[0] == 0 && tr.plane.normal[1] == 0 && tr.plane.normal[2] == -1){
 				gi.cprintf(self, PRINT_MEDIUM, "z = -1");
 				self->flags |= FL_GRAV_UP;
+				self->velocity[2] -= self->gravity ;
 			}else if(tr.plane.normal[0] == 0 && tr.plane.normal[1] == 0 && tr.plane.normal[2] == 1){
 				gi.cprintf(self, PRINT_MEDIUM, "z = 1");
 				self->flags |= FL_GRAV_DOWN;
+				self->velocity[2] += self->gravity ;
 			}
 		}
 
