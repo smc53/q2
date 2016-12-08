@@ -1611,6 +1611,7 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 		//grav edits
 		if (ent->flags & FL_GRAV_UP){
 			ent->velocity[2] = sv_gravity->value;
+			
 			//client->ps.pmove.velocity[2] += sv_gravity->value;
 			//client->ps.pmove.gravity = 0;
 			//ent->s.angles[ROLL] = 135;

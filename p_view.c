@@ -396,6 +396,10 @@ void SV_AddBlend (float r, float g, float b, float a, float *v_blend)
 SV_CalcBlend
 =============
 */
+
+float grav_alpha = 0.0, grav_arate = 0.005, grav_amax = 0.1, grav_amin = 0.0; 
+qboolean ga_inc = true;
+
 void SV_CalcBlend (edict_t *ent)
 {
 	int		contents;
@@ -424,18 +428,32 @@ void SV_CalcBlend (edict_t *ent)
 		SV_AddBlend (0.5, 0.3, 0.2, 0.4, ent->client->ps.blend);
 	*/
 
+
+	if(ga_inc){
+		grav_alpha += grav_arate;
+		if(grav_alpha >= grav_amax){
+			ga_inc = false;
+		}	
+	}else{
+		grav_alpha -= grav_arate;
+		if(grav_alpha <= 0){
+			grav_alpha = 0;
+			ga_inc = true;
+		}
+	}
+
 	if(ent->flags & FL_GRAV_UP){
-		SV_AddBlend(1.0, 1.0, 1.0, 0.08, ent->client->ps.blend);
+		SV_AddBlend(1.0, 1.0, 1.0, grav_alpha, ent->client->ps.blend);
 	}else if(ent->flags & FL_GRAV_DOWN){
-		SV_AddBlend(0.2, 0.2, 0.2, 0.08, ent->client->ps.blend);
+		SV_AddBlend(0.2, 0.2, 0.2, grav_alpha, ent->client->ps.blend);
 	}else if(ent->flags & FL_GRAV_NORTH){
-		SV_AddBlend(0.2, 0.2, 1.0, 0.08, ent->client->ps.blend);
+		SV_AddBlend(0.2, 0.2, 1.0, grav_alpha, ent->client->ps.blend);
 	}else if(ent->flags & FL_GRAV_SOUTH){
-		SV_AddBlend(0.2, 1.0, 0.2, 0.08, ent->client->ps.blend);
+		SV_AddBlend(0.2, 1.0, 0.2, grav_alpha, ent->client->ps.blend);
 	}else if(ent->flags & FL_GRAV_EAST){
-		SV_AddBlend(1.0, 0.2, 0.2, 0.08, ent->client->ps.blend);
+		SV_AddBlend(1.0, 0.2, 0.2, grav_alpha, ent->client->ps.blend);
 	}else if(ent->flags & FL_GRAV_WEST){
-		SV_AddBlend(1.0, 1.0, 0.2, 0.08, ent->client->ps.blend);
+		SV_AddBlend(1.0, 1.0, 0.2, grav_alpha, ent->client->ps.blend);
 	}
 
 	// add for powerups

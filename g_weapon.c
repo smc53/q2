@@ -169,30 +169,18 @@ static void fire_lead (edict_t *self, vec3_t start, vec3_t aimdir, int damage, i
 
 			if(tr.plane.normal[0] == 0 && tr.plane.normal[1] == 1 && tr.plane.normal[2] == 0){
 				self->flags |= FL_GRAV_WEST;
-				self->velocity[0] += self->gravity;
-				//self->client->ps.viewangles[ROLL] = 90;
-				//self->client->ps.viewangles[PITCH] = -15;
-				//self->client->ps.viewangles[YAW] = ent->client->killer_yaw;
-
 			}else if(tr.plane.normal[0] == 0 && tr.plane.normal[1] == -1 && tr.plane.normal[2] == 0){
 				self->flags |= FL_GRAV_EAST;
-				gi.cprintf(self, PRINT_MEDIUM, "y = -1");
-				self->velocity[0] -= self->gravity ;
 			}else if(tr.plane.normal[0] == 0 && tr.plane.normal[1] == 0 && tr.plane.normal[2] == -1){
-				gi.cprintf(self, PRINT_MEDIUM, "z = -1");
 				self->flags |= FL_GRAV_UP;
-				self->velocity[2] -= self->gravity ;
-				//self->client->ps.kick_angles[ROLL] = 90;
-
-
-				//self->client->ps.viewangles[ROLL] = 45;
-				//self->client->ps.viewangles[PITCH] = -15;
 			}else if(tr.plane.normal[0] == 0 && tr.plane.normal[1] == 0 && tr.plane.normal[2] == 1){
-				gi.cprintf(self, PRINT_MEDIUM, "z = 1");
 				self->flags |= FL_GRAV_DOWN;
-				self->velocity[2] += self->gravity ;
-				
+			}else if(tr.plane.normal[0] == 1 && tr.plane.normal[1] == 0 && tr.plane.normal[2] == 0){
+				self->flags |= FL_GRAV_NORTH;
+			}else if(tr.plane.normal[0] == -1 && tr.plane.normal[1] == 0 && tr.plane.normal[2] == 0){
+				self->flags |= FL_GRAV_SOUTH;
 			}
+
 		}
 
 		// see if we hit water
