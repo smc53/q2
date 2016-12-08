@@ -182,10 +182,16 @@ static void fire_lead (edict_t *self, vec3_t start, vec3_t aimdir, int damage, i
 				gi.cprintf(self, PRINT_MEDIUM, "z = -1");
 				self->flags |= FL_GRAV_UP;
 				self->velocity[2] -= self->gravity ;
+				//self->client->ps.kick_angles[ROLL] = 90;
+
+
+				//self->client->ps.viewangles[ROLL] = 45;
+				//self->client->ps.viewangles[PITCH] = -15;
 			}else if(tr.plane.normal[0] == 0 && tr.plane.normal[1] == 0 && tr.plane.normal[2] == 1){
 				gi.cprintf(self, PRINT_MEDIUM, "z = 1");
 				self->flags |= FL_GRAV_DOWN;
 				self->velocity[2] += self->gravity ;
+				
 			}
 		}
 

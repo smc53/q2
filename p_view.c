@@ -210,7 +210,7 @@ void SV_CalcViewOffset (edict_t *ent)
 
 
 //===================================
-
+	gi.cprintf(ent, PRINT_HIGH, "roll %d \n", ent->client->ps.kick_angles[ROLL]);
 	// base angles
 	angles = ent->client->ps.kick_angles;
 

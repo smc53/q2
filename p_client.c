@@ -1602,41 +1602,50 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 
 		client->ps.pmove.gravity = sv_gravity->value;
 
-		if (ent->flags & FL_GRAV_OFF)
+		//if (ent->flags & FL_GRAV_OFF)
 			client->ps.pmove.gravity = 0;
-		else if(ent->flags & FL_GRAV_OFF)
-			client->ps.pmove.gravity = sv_gravity->value;
+		//else if(ent->flags & FL_GRAV_OFF)
+			//client->ps.pmove.gravity = sv_gravity->value;
+		
 
 		//grav edits
 		if (ent->flags & FL_GRAV_UP){
-			ent->velocity[2] += sv_gravity->value;
-			//ent->movetype = MOVETYPE_FLYMISSILE;
-			//ent->groundentity = NULL;
+			ent->velocity[2] = sv_gravity->value;
+			//client->ps.pmove.velocity[2] += sv_gravity->value;
+			//client->ps.pmove.gravity = 0;
+			//ent->s.angles[ROLL] = 135;
+			//ent->s.angles[PITCH] = 45;
+
+
 		}
 		else if (ent->flags & FL_GRAV_DOWN){
-			//ent->groundentity = NULL;
-			//ent->movetype = MOVETYPE_FLYMISSILE;
-			ent->velocity[2] -= sv_gravity->value;
+			ent->velocity[2] = -sv_gravity->value;
+			//client->ps.pmove.velocity[2] += -sv_gravity->value;
+			//client->ps.pmove.gravity = 0;
 		}
 		else if (ent->flags & FL_GRAV_WEST){
 			//ent->groundentity = NULL;
 			//ent->movetype = MOVETYPE_FLYMISSILE;
-			ent->velocity[1] -= sv_gravity->value;
+			ent->velocity[1] = -sv_gravity->value;
+			//client->ps.pmove.velocity[1] += -sv_gravity->value;
 		}
 		else if (ent->flags & FL_GRAV_EAST){
 			//ent->groundentity = NULL;
 			//ent->movetype = MOVETYPE_FLYMISSILE;
-			ent->velocity[1] += sv_gravity->value;
+			ent->velocity[1] = sv_gravity->value;
+			//client->ps.pmove.velocity[1] += sv_gravity->value;
 		}
 		else if (ent->flags & FL_GRAV_SOUTH){
 			//ent->groundentity = NULL;
 			//ent->movetype = MOVETYPE_FLYMISSILE;
-			ent->velocity[0] += sv_gravity->value;
+			//client->ps.pmove.velocity[0] += sv_gravity->value;
+			ent->velocity[0] = sv_gravity->value;
 		}
 		else if (ent->flags & FL_GRAV_NORTH){
 			//ent->groundentity = NULL;
 			//ent->movetype = MOVETYPE_FLYMISSILE;
-			ent->velocity[0] -= sv_gravity->value;
+			ent->velocity[0] = -sv_gravity->value;
+			//client->ps.pmove.velocity[0] += -sv_gravity->value;
 		}
 
 		pm.s = client->ps.pmove;
@@ -1699,16 +1708,31 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 			client->ps.viewangles[PITCH] = -15;
 			client->ps.viewangles[YAW] = client->killer_yaw;
 		}
-		else
-		{
-			if(ent->flags & FL_GRAV_UP){
-				gi.cprintf(ent, PRINT_HIGH, "view shift");
-				client->ps.viewangles[ROLL] = -(client->ps.viewangles[ROLL]);
+		//else if(ent->flags & FL_GRAV_UP)
+		//{
+
+				//gi.cprintf(ent, PRINT_HIGH, "view shift");
+				//client->ps.viewangles[ROLL] = -(client->ps.viewangles[ROLL]);
 				//VectorCopy(pm.viewangles, client->v_angle);
 				//VectorCopy(pm.viewangles, client->ps.viewangles);
 				
-			}
 			
+		//}
+		else{
+
+			if(ent->flags & FL_GRAV_UP){
+				//pm.viewangles[ROLL] += 50;
+				//pm.viewangles[PITCH] += 30;
+				
+				/*client->ps.viewangles[ROLL] += 45;
+				client->v_angle[ROLL] += 45;
+				client->ps.viewangles[PITCH] += 30;
+				client->v_angle[PITCH] += 30;
+				*/
+			}
+
+			//gi.cprintf(ent, PRINT_HIGH, "%d roll\n", pm.viewangles[ROLL]);
+
 			VectorCopy (pm.viewangles, client->v_angle);
 			VectorCopy (pm.viewangles, client->ps.viewangles);
 			
