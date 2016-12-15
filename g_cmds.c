@@ -881,6 +881,38 @@ void Cmd_PlayerList_f(edict_t *ent)
 }
 
 
+void Cmd_Push_grav(edict_t *ent){
+	vec3_t start, forward, end;	
+	trace_t tr;
+
+	VectorCopy(ent->s.origin, start);
+	start[2] += ent->viewheight;
+	AngleVectors(ent->client->v_angle, forward, NULL, NULL);
+	VectorMA(start, 8192, forward, end);
+	tr = gi.trace(start, NULL, NULL, end, ent, MASK_SHOT);
+	//if(tr.ent && (tr.ent->svflags & SVF_NOCLIENT) ) {
+		VectorScale(forward, 5000, forward);
+		VectorAdd(forward, ent->velocity, tr.ent->velocity);
+	//}
+}
+
+void Cmd_Pull_grav(edict_t *ent){
+	vec3_t start, forward, end;	
+	trace_t tr;
+
+	VectorCopy(ent->s.origin, start);
+	start[2] += ent->viewheight;
+	AngleVectors(ent->client->v_angle, forward, NULL, NULL);
+	VectorMA(start, 8192, forward, end);
+	tr = gi.trace(start, NULL, NULL, end, ent, MASK_SHOT);
+	//if(tr.ent && (tr.ent->svflags & SVF_NOCLIENT) ) {
+		VectorScale(forward, -5000, forward);
+		VectorAdd(forward, ent->velocity, tr.ent->velocity);
+	//}
+}
+
+
+
 /*
 =================
 ClientCommand
@@ -968,7 +1000,7 @@ void ClientCommand (edict_t *ent)
 		Cmd_Wave_f (ent);
 	else if (Q_stricmp(cmd, "playerlist") == 0)
 		Cmd_PlayerList_f(ent);
-	else if(Q_stricmp(cmd, "grav_OFF") == 0){
+	else if(Q_stricmp(cmd, "grav_off") == 0){
 		if (ent->flags & FL_GRAV_OFF){
 			gi.cprintf (ent, PRINT_HIGH, "GRAVITY off\n");
 			ent->flags -= FL_GRAV_OFF;
@@ -977,6 +1009,12 @@ void ClientCommand (edict_t *ent)
 			gi.cprintf (ent, PRINT_HIGH, "GRAVITY on\n");
 			ent->flags |= FL_GRAV_OFF;
         }
+	}
+	else if(Q_stricmp(cmd, "push") == 0){
+		Cmd_Push_grav(ent);
+	}else if(Q_stricmp(cmd, "pull") == 0){
+		Cmd_Pull_grav(ent);
+
 	}
 	else if(Q_stricmp(cmd, "grav_north") == 0){
 		if (ent->flags & FL_GRAV_NORTH){

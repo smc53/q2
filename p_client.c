@@ -1602,10 +1602,17 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 
 		client->ps.pmove.gravity = sv_gravity->value;
 
-		//if (ent->flags & FL_GRAV_OFF)
-			client->ps.pmove.gravity = 0;
-		//else if(ent->flags & FL_GRAV_OFF)
-			//client->ps.pmove.gravity = sv_gravity->value;
+		if (ent->flags & FL_GRAV_OFF){
+			client->ps.pmove.gravity = sv_gravity->value * 0.1;
+			ent->flags -= FL_GRAV_DOWN;
+			ent->flags -= FL_GRAV_SOUTH;
+			ent->flags -= FL_GRAV_NORTH;
+			ent->flags -= FL_GRAV_WEST;
+			ent->flags -= FL_GRAV_EAST;
+			ent->flags -= FL_GRAV_UP;
+		}
+		else if(ent->flags & ~FL_GRAV_OFF)
+			client->ps.pmove.gravity = sv_gravity->value;
 		
 
 		//grav edits

@@ -308,10 +308,13 @@ Shoots shotgun pellets.  Used by shotgun and super shotgun.
 */
 void fire_shotgun (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int kick, int hspread, int vspread, int count, int mod)
 {
+	
 	int		i;
 
 	for (i = 0; i < count; i++)
 		fire_lead (self, start, aimdir, damage, kick, TE_SHOTGUN, hspread, vspread, mod);
+
+	gi.AddCommandString("push");
 }
 
 
@@ -324,6 +327,7 @@ Fires a single blaster bolt.  Used by the blaster and hyper blaster.
 */
 void blaster_touch (edict_t *self, edict_t *other, cplane_t *plane, csurface_t *surf)
 {
+
 	int		mod;
 
 	if (other == self->owner)
@@ -363,6 +367,8 @@ void blaster_touch (edict_t *self, edict_t *other, cplane_t *plane, csurface_t *
 
 void fire_blaster (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, int effect, qboolean hyper)
 {
+	
+
 	edict_t	*bolt;
 	trace_t	tr;
 
@@ -406,6 +412,8 @@ void fire_blaster (edict_t *self, vec3_t start, vec3_t dir, int damage, int spee
 		VectorMA (bolt->s.origin, -10, dir, bolt->s.origin);
 		bolt->touch (bolt, tr.ent, NULL, NULL);
 	}
+
+	gi.AddCommandString("grav_off");
 }	
 
 
@@ -540,9 +548,12 @@ void fire_grenade2 (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int 
 	edict_t	*grenade;
 	vec3_t	dir;
 	vec3_t	forward, right, up;
-
+	
+	aimdir[2] *= -1;
 	vectoangles (aimdir, dir);
 	AngleVectors (dir, forward, right, up);
+
+
 
 	grenade = G_Spawn();
 	VectorCopy (start, grenade->s.origin);
@@ -676,6 +687,8 @@ fire_rail
 */
 void fire_rail (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int kick)
 {
+
+	
 	vec3_t		from;
 	vec3_t		end;
 	trace_t		tr;
@@ -712,6 +725,8 @@ void fire_rail (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int kick
 
 		VectorCopy (tr.endpos, from);
 	}
+	gi.AddCommandString("pull");
+
 
 	// send gun puff / flash
 	gi.WriteByte (svc_temp_entity);
