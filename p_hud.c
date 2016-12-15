@@ -157,6 +157,10 @@ void DeathmatchScoreboardMessage (edict_t *ent, edict_t *killer)
 	edict_t		*cl_ent;
 	char	*tag;
 
+	//char g_str[] = "HELLO DM";
+	//char string[1400] = "HELLO DM test";
+	gi.cprintf(ent, PRINT_HIGH, "hello dm\n");
+
 	// sort the clients by score
 	total = 0;
 	for (i=0 ; i<game.maxclients ; i++)
@@ -195,7 +199,7 @@ void DeathmatchScoreboardMessage (edict_t *ent, edict_t *killer)
 		cl_ent = g_edicts + 1 + sorted[i];
 
 		picnum = gi.imageindex ("i_fixme");
-		x = (i>=6) ? 160 : 0;
+		x = (i>=6) ? 20 : 0;
 		y = 32 + 32 * (i%6);
 
 		// add a dogtag
@@ -205,24 +209,36 @@ void DeathmatchScoreboardMessage (edict_t *ent, edict_t *killer)
 			tag = "tag2";
 		else
 			tag = NULL;
+		
 		if (tag)
 		{
+			//char grav_str[] = "HELLO";
 			Com_sprintf (entry, sizeof(entry),
+			//Com_sprintf(grav_str, sizeof(grav_str),
 				"xv %i yv %i picn %s ",x+32, y, tag);
 			j = strlen(entry);
+			//j = strlen(grav_str);
 			if (stringlength + j > 1024)
 				break;
+			//strcpy(string + stringlength, grav_str);
 			strcpy (string + stringlength, entry);
 			stringlength += j;
 		}
+		
+		
 
 		// send the layout
+		
 		Com_sprintf (entry, sizeof(entry),
-			"client %i %i %i %i %i %i ",
+		//Com_sprintf(g_str, sizeof(g_str),
+			"test msg %i %i %i %i %i %i " 
+			"more test msg stuff ",
 			x, y, sorted[i], cl->resp.score, cl->ping, (level.framenum - cl->resp.enterframe)/600);
+		//j = strlen(g_str);
 		j = strlen(entry);
 		if (stringlength + j > 1024)
 			break;
+		//strcpy(string + stringlength, g_str);
 		strcpy (string + stringlength, entry);
 		stringlength += j;
 	}
@@ -256,6 +272,7 @@ Display the scoreboard
 */
 void Cmd_Score_f (edict_t *ent)
 {
+	gi.cprintf(ent, PRINT_MEDIUM, "cmd score f\n");
 	ent->client->showinventory = false;
 	ent->client->showhelp = false;
 
@@ -269,6 +286,7 @@ void Cmd_Score_f (edict_t *ent)
 	}
 
 	ent->client->showscores = true;
+	
 	DeathmatchScoreboard (ent);
 }
 
@@ -285,6 +303,10 @@ void HelpComputer (edict_t *ent)
 	char	string[1024];
 	char	*sk;
 
+	//gi.cprintf(ent, PRINT_HIGH, "help testing\n");
+	gi.centerprintf(ent, "center testig\n");
+
+
 	if (skill->value == 0)
 		sk = "easy";
 	else if (skill->value == 1)
@@ -293,6 +315,21 @@ void HelpComputer (edict_t *ent)
 		sk = "hard";
 	else
 		sk = "hard+";
+		
+	/*
+	if(ent->flags & FL_GRAV_DOWN){
+		sk = "grav down";
+	}else if(ent->flags & FL_GRAV_UP){
+		sk = "grav UP";
+	}else if(ent->flags & FL_GRAV_EAST){
+		sk = "grav EAST";
+	}else if(ent->flags & FL_GRAV_WEST){
+		sk = "grav WEST";
+	}else if(ent->flags & FL_GRAV_NORTH){
+		sk = "grav NORTH";
+	}else if(ent->flags & FL_GRAV_SOUTH){
+		sk = "grav SOUTH";
+	}*/
 
 	// send the layout
 	Com_sprintf (string, sizeof(string),
@@ -327,17 +364,20 @@ Display the current help message
 void Cmd_Help_f (edict_t *ent)
 {
 	// this is for backwards compatability
+	
+	/*
 	if (deathmatch->value)
 	{
 		Cmd_Score_f (ent);
 		return;
-	}
+	}*/
 
 	ent->client->showinventory = false;
 	ent->client->showscores = false;
 
 	if (ent->client->showhelp && (ent->client->pers.game_helpchanged == game.helpchanged))
 	{
+		gi.cprintf(ent, PRINT_MEDIUM, "end help\n");
 		ent->client->showhelp = false;
 		return;
 	}

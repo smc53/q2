@@ -1004,6 +1004,7 @@ void ClientCommand (edict_t *ent)
 		if (ent->flags & FL_GRAV_OFF){
 			gi.cprintf (ent, PRINT_HIGH, "GRAVITY off\n");
 			ent->flags -= FL_GRAV_OFF;
+
         }
         else {
 			gi.cprintf (ent, PRINT_HIGH, "GRAVITY on\n");

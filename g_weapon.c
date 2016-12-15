@@ -168,16 +168,22 @@ static void fire_lead (edict_t *self, vec3_t start, vec3_t aimdir, int damage, i
 			self->velocity[2] = 0;
 
 			if(tr.plane.normal[0] == 0 && tr.plane.normal[1] == 1 && tr.plane.normal[2] == 0){
+				gi.centerprintf(self, "WEST");
 				self->flags |= FL_GRAV_WEST;
 			}else if(tr.plane.normal[0] == 0 && tr.plane.normal[1] == -1 && tr.plane.normal[2] == 0){
+				gi.centerprintf(self, "EAST");
 				self->flags |= FL_GRAV_EAST;
 			}else if(tr.plane.normal[0] == 0 && tr.plane.normal[1] == 0 && tr.plane.normal[2] == -1){
+				gi.centerprintf(self, "UP");
 				self->flags |= FL_GRAV_UP;
 			}else if(tr.plane.normal[0] == 0 && tr.plane.normal[1] == 0 && tr.plane.normal[2] == 1){
+				gi.centerprintf(self, "DOWN");
 				self->flags |= FL_GRAV_DOWN;
 			}else if(tr.plane.normal[0] == 1 && tr.plane.normal[1] == 0 && tr.plane.normal[2] == 0){
+				gi.centerprintf(self, "NORTH");
 				self->flags |= FL_GRAV_NORTH;
 			}else if(tr.plane.normal[0] == -1 && tr.plane.normal[1] == 0 && tr.plane.normal[2] == 0){
+				gi.centerprintf(self, "SOUTH");
 				self->flags |= FL_GRAV_SOUTH;
 			}
 
@@ -650,6 +656,10 @@ void rocket_touch (edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *su
 void fire_rocket (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, float damage_radius, int radius_damage)
 {
 	edict_t	*rocket;
+
+	vec3_t vel;
+	VectorScale(dir, -speed*3, vel);
+	VectorAdd(self->velocity, vel, self->velocity);
 
 	rocket = G_Spawn();
 	VectorCopy (start, rocket->s.origin);

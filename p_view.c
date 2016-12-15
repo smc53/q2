@@ -210,7 +210,6 @@ void SV_CalcViewOffset (edict_t *ent)
 
 
 //===================================
-	gi.cprintf(ent, PRINT_HIGH, "roll %d \n", ent->client->ps.kick_angles[ROLL]);
 	// base angles
 	angles = ent->client->ps.kick_angles;
 
@@ -397,7 +396,7 @@ SV_CalcBlend
 =============
 */
 
-float grav_alpha = 0.0, grav_arate = 0.005, grav_amax = 0.1, grav_amin = 0.0; 
+float grav_alpha = 0.0, grav_arate = 0.01, grav_amax = 0.2, grav_amin = 0.0; 
 qboolean ga_inc = true;
 
 void SV_CalcBlend (edict_t *ent)
